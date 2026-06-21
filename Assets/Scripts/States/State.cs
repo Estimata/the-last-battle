@@ -1,8 +1,6 @@
-using UnityEngine;
-
-public abstract class State : MonoBehaviour
+public abstract class State<T> : IState<T>
 {
-    public abstract void Enter();
-    public abstract void Exit();
-    public abstract void Update();
+    public virtual void Enter(T context) { }
+    public virtual void UpdateState(T context) { }
+    public virtual void Exit(T context) { }
 }
