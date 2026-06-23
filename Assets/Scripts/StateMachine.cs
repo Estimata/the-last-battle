@@ -14,7 +14,7 @@ public class StateMachine<T>
 
     public void ChangeState(IState<T> newState)
     {
-        _currentState?.Exit(_context);
+        _currentState.Exit(_context);
         newState.Enter(_context);
         _currentState = newState;
 
@@ -23,6 +23,11 @@ public class StateMachine<T>
 
     public void Update()
     {
-        _currentState?.UpdateState(_context);
+        _currentState.UpdateState(_context);
+    }
+
+    public void Interrupt(IState<T> newState)
+    {
+        if (_currentState.CanBeInterrupted(newState)) ChangeState(newState);
     }
 }

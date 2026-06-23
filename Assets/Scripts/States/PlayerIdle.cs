@@ -9,7 +9,7 @@ public class PlayerIdle : State<PlayerController>
         player.Animator.SetFloat("Velocity", _moveDirection.magnitude);
         if (_moveDirection != Vector2.zero)
         {
-            player.StateMachine.ChangeState(player.RunState);
+            player.StateMachine.ChangeState(player.MoveState);
         }
     }
 }

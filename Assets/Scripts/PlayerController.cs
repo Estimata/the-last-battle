@@ -13,11 +13,17 @@ public class PlayerController : MonoBehaviour
 
     public StateMachine<PlayerController> StateMachine { get; private set; }
     public PlayerIdle IdleState { get; private set; }
-    public PlayerRun RunState { get; private set; }
+    public PlayerMove MoveState { get; private set; }
+    public PlayerAttack AttackState { get; private set; }
     
     public bool GravityEnabled = true;
+    public Vector3 Velocity { get; set; }
     public float RunningSpeed = 5f;
+    public float Acceleration = 1f;
+    public float Deceleration = 0.1f;
     public float TurningSpeed = 5f;
+    public float AttackCooldown = 3f;
+    private float _attackCooldownTimer = 0f;
     [SerializeField] private float _mouseSensitivity = 100f;
     float _yaw = 0f;
     float _pitch = 0f;
@@ -25,7 +31,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         IdleState = new PlayerIdle();
-        RunState = new PlayerRun();
+        MoveState = new PlayerMove();
+        AttackState = new PlayerAttack();
 
         StateMachine = new StateMachine<PlayerController>(this, IdleState);
     }
@@ -40,8 +47,27 @@ public class PlayerController : MonoBehaviour
         StateMachine.Update();
         _handleLookDirection();
         _handleGravity();
+        _handleTimer();
     }
     
+    public void MoveLookDirection(Vector3 moveDirection, float speed)
+    {
+        Vector3 lookDirection = LookDirection.TransformDirection(moveDirection);
+
+        lookDirection.y = 0f;
+        Velocity = lookDirection * RunningSpeed;
+        
+        CharacterController.Move(Velocity * Time.deltaTime);
+
+        if (lookDirection != Vector3.zero)
+        {
+            Model.transform.rotation = Quaternion.Slerp(
+                Model.transform.rotation, 
+                Quaternion.LookRotation(lookDirection), 
+                TurningSpeed * Time.deltaTime);
+        }
+    }
+
     void _handleLookDirection()
     {
         Vector2 lookInput = LookAction.action.ReadValue<Vector2>();
@@ -62,5 +88,18 @@ public class PlayerController : MonoBehaviour
         {
             CharacterController.Move(Physics.gravity * Time.deltaTime);
         }
+    }
+
+    void _handleTimer()
+    {
+        if (_attackCooldownTimer > 0) _attackCooldownTimer -= Time.deltaTime;
+    }
+
+    void OnAttack()
+    {
+        if (_attackCooldownTimer > 0) return;
+
+        _attackCooldownTimer = AttackCooldown;
+        StateMachine.Interrupt(AttackState);
     }
 }
