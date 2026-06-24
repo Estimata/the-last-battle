@@ -9,6 +9,8 @@ public class StateMachine<T>
     public StateMachine(T context, IState<T> initialState)
     {
         _context = context;
+        
+        initialState.Enter(context);
         _currentState = initialState;
     }
 

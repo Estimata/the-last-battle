@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float Acceleration = 1f;
     public float Deceleration = 0.1f;
     public float TurningSpeed = 5f;
-    public float AttackCooldown = 3f;
+    public float AttackCooldown = 1f;
     private float _attackCooldownTimer = 0f;
     [SerializeField] private float _mouseSensitivity = 100f;
     float _yaw = 0f;
@@ -45,9 +45,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         StateMachine.Update();
-        _handleLookDirection();
-        _handleGravity();
-        _handleTimer();
+        HandleLookDirection();
+        HandleGravity();
+        HandleTimer();
     }
     
     public void MoveLookDirection(Vector3 moveDirection, float speed)
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void _handleLookDirection()
+    void HandleLookDirection()
     {
         Vector2 lookInput = LookAction.action.ReadValue<Vector2>();
         float mouseX = lookInput.x * _mouseSensitivity * Time.deltaTime;
@@ -77,12 +77,12 @@ public class PlayerController : MonoBehaviour
         _yaw += mouseX;
         _pitch -= mouseY;
 
-        _pitch = Mathf.Clamp(_pitch, -40f, 80f);
+        _pitch = Mathf.Clamp(_pitch, -25f, 80f);
 
         LookDirection.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
     }
 
-    void _handleGravity()
+    void HandleGravity()
     {
         if (GravityEnabled && !CharacterController.isGrounded)
         {
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void _handleTimer()
+    void HandleTimer()
     {
         if (_attackCooldownTimer > 0) _attackCooldownTimer -= Time.deltaTime;
     }
