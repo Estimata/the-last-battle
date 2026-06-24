@@ -5,19 +5,19 @@ public class PlayerController : MonoBehaviour
 {
     public Animator Animator;
     public CharacterController CharacterController;
+    public BoxCollider WeaponHitBox;
     public Transform Model;
     public Transform LookDirection;
 
     public InputActionReference MoveAction;
     public InputActionReference LookAction;
 
-    public StateMachine<PlayerController> StateMachine { get; private set; }
+    public StateMachine<PlayerController> PlayerState { get; private set; }
     public PlayerIdle IdleState { get; private set; }
     public PlayerMove MoveState { get; private set; }
     public PlayerAttack AttackState { get; private set; }
     
     public bool GravityEnabled = true;
-    public Vector3 Velocity { get; set; }
     public float RunningSpeed = 5f;
     public float Acceleration = 1f;
     public float Deceleration = 0.1f;
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         MoveState = new PlayerMove();
         AttackState = new PlayerAttack();
 
-        StateMachine = new StateMachine<PlayerController>(this, IdleState);
+        PlayerState = new StateMachine<PlayerController>(this, IdleState);
     }
 
     void Start()
@@ -44,20 +44,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        StateMachine.Update();
+        PlayerState.Update();
         HandleLookDirection();
         HandleGravity();
         HandleTimer();
     }
     
+    //Function untuk menggerakkan player relatif arah pandang player (arah kamera)
     public void MoveLookDirection(Vector3 moveDirection, float speed)
     {
         Vector3 lookDirection = LookDirection.TransformDirection(moveDirection);
 
         lookDirection.y = 0f;
-        Velocity = lookDirection * RunningSpeed;
+        Vector3 velocity = lookDirection * RunningSpeed;
         
-        CharacterController.Move(Velocity * Time.deltaTime);
+        CharacterController.Move(velocity * Time.deltaTime);
 
         if (lookDirection != Vector3.zero)
         {
@@ -100,6 +101,6 @@ public class PlayerController : MonoBehaviour
         if (_attackCooldownTimer > 0) return;
 
         _attackCooldownTimer = AttackCooldown;
-        StateMachine.Interrupt(AttackState);
+        PlayerState.Interrupt(AttackState);
     }
 }

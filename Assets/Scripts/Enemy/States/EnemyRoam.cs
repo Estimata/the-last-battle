@@ -17,7 +17,7 @@ public class EnemyRoam : State<EnemyController>
         _isMoving = false;
     }
     
-    public override void UpdateState(EnemyController enemy)
+    public override void Update(EnemyController enemy)
     {
         if (_isMoving) {
             if (HasArrived(enemy))

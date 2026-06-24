@@ -1,8 +1,9 @@
 using UnityEngine;
+using System;
 
 public class StateMachine<T>
 {
-    public event System.Action<IState<T>> OnStateChanged;
+    public event Action<IState<T>> OnStateChanged;
     private IState<T> _currentState;
     private readonly T _context;
 
@@ -25,7 +26,7 @@ public class StateMachine<T>
 
     public void Update()
     {
-        _currentState.UpdateState(_context);
+        _currentState.Update(_context);
     }
 
     public void Interrupt(IState<T> newState)

@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMove : State<PlayerController>
 {
     private int _velocityHash = Animator.StringToHash("Velocity");
-    public override void UpdateState(PlayerController player)
+    public override void Update(PlayerController player)
     {
         Vector2 moveInput = player.MoveAction.action.ReadValue<Vector2>();
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
@@ -14,7 +14,7 @@ public class PlayerMove : State<PlayerController>
         
         if (moveInput.magnitude < 0.01f)
         {
-            player.StateMachine.ChangeState(player.IdleState);
+            player.PlayerState.ChangeState(player.IdleState);
         }
 
     }

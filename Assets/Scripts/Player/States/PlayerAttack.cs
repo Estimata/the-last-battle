@@ -7,9 +7,10 @@ public class PlayerAttack : State<PlayerController>
     public override void Enter(PlayerController player)
     {
         player.Animator.SetTrigger(_attackHash);
+        player.WeaponHitBox.enabled = true;
     }
 
-    public override void UpdateState(PlayerController player)
+    public override void Update(PlayerController player)
     {
         Vector2 moveInput = player.MoveAction.action.ReadValue<Vector2>();
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
@@ -21,20 +22,25 @@ public class PlayerAttack : State<PlayerController>
         AnimatorStateInfo stateInfo = player.Animator.GetCurrentAnimatorStateInfo(1);
         if (stateInfo.IsName("Attack") && stateInfo.normalizedTime >= 0.9f)
         {
-            if (player.Velocity == Vector3.zero)
+            if (player.CharacterController.velocity != Vector3.zero)
             {
-                player.StateMachine.ChangeState(player.MoveState);
+                player.PlayerState.ChangeState(player.MoveState);
             }
             else
             {
-                player.StateMachine.ChangeState(player.IdleState);
+                player.PlayerState.ChangeState(player.IdleState);
             }
         }
     }
 
+    public override void Exit(PlayerController player)
+    {
+        player.WeaponHitBox.enabled = false;
+    }
+    
     public override bool CanBeInterrupted(IState<PlayerController> newState)
     {
-        // TODO add spesific condition
+        // TODO Tambahkan kondisi yang lebih spesifik
         return false;
     }
 }
