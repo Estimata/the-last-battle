@@ -11,10 +11,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Character
-  - 
-  - 
-  - 
+  - Ally
+  - Enemy
+  - AllyHitBox
+  - EnemyHitBox
   - 
   - 
   - 

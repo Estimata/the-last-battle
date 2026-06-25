@@ -19,8 +19,4 @@ public class EnemyController : MonoBehaviour
     private void Update() {
         EnemyState.Update();
     }
-
-    private void OnTriggerEnter(Collider other) {
-        
-    }
 }
