@@ -7,7 +7,10 @@ public class BattleController : MonoBehaviour
 
     public void BattleEntered(IReadOnlyList<FighterController> fighters)
     {
-        Debug.Log(fighters);
+        foreach (FighterController fighter in fighters)
+        {
+            Debug.Log(fighter);
+        }
     }
 
     public void BattleExited()

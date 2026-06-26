@@ -5,10 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     public Animator Animator;
     public BoxCollider WeaponHitBox;
-    private Transform _model;
 
     [SerializeField] Movement _movement;
-    [SerializeField] LookDirection _lookDirection;
+    [SerializeField] LookDirectionController _lookDirection;
     [SerializeField] Rotation _rotation;
 
     public InputActionReference MoveAction;
@@ -21,8 +20,6 @@ public class PlayerController : MonoBehaviour
     public Transform _target;    
     public float _runningSpeed = 5f;
     public float _turningSpeed = 5f;
-    public float Acceleration = 1f;
-    public float Deceleration = 0.1f;
     public float AttackCooldown = 1f;
     private float _attackCooldownTimer = 0f;
 
@@ -50,10 +47,13 @@ public class PlayerController : MonoBehaviour
     
     public void ChangeState(IState<PlayerController> state) => _playerState.ChangeState(state);
     public void InterruptState(IState<PlayerController> state) => _playerState.Interrupt(state);
+
     public bool HasTarget() => _target != null;
+
     public void Move(Vector3 moveDirection) => _movement.Move(_lookDirection.transform, moveDirection, _runningSpeed);
     public float GetMovementLean() => _movement.GetMovementLean(_rotation.transform);
     public Vector3 GetVelocity() => _movement.Velocity;
+    
     public void LookForward() => _rotation.LookForward(_movement.Velocity.normalized, _turningSpeed);
     public void LockIn() => _rotation.transform.LookAt(_target.position);
 }

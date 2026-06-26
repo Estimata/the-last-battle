@@ -20,7 +20,7 @@ public class BattleInitiator : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if ((_fighterLayer & (1 << other.gameObject.layer)) == 0) return;
+        if (InBattle || (_fighterLayer & (1 << other.gameObject.layer)) == 0) return;
 
         InBattle = true;
         Collider[] hits = Physics.OverlapSphere(transform.position, 30f, _fighterLayer);

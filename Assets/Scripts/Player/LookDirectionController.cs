@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LookDirection : MonoBehaviour
+public class LookDirectionController : MonoBehaviour
 {
     [SerializeField] private float _mouseSensitivity = 25f;
     private float _yaw = 0f;
