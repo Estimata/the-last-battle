@@ -11,7 +11,7 @@ public class PlayerIdle : State<PlayerController>
         player.Animator.SetFloat(_velocityHash, _moveDirection.magnitude);
         if (_moveDirection != Vector2.zero)
         {
-            player.PlayerState.ChangeState(player.MoveState);
+            player.ChangeState(player.MoveState);
         }
     }
 }

@@ -4,103 +4,56 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public Animator Animator;
-    public CharacterController CharacterController;
     public BoxCollider WeaponHitBox;
-    public Transform Model;
-    public Transform LookDirection;
+    private Transform _model;
+
+    [SerializeField] Movement _movement;
+    [SerializeField] LookDirection _lookDirection;
+    [SerializeField] Rotation _rotation;
 
     public InputActionReference MoveAction;
-    public InputActionReference LookAction;
 
-    public StateMachine<PlayerController> PlayerState { get; private set; }
+    private StateMachine<PlayerController> _playerState;
     public PlayerIdle IdleState { get; private set; }
     public PlayerMove MoveState { get; private set; }
     public PlayerAttack AttackState { get; private set; }
-    
-    public bool GravityEnabled = true;
-    public float RunningSpeed = 5f;
+
+    public Transform _target;    
+    public float _runningSpeed = 5f;
+    public float _turningSpeed = 5f;
     public float Acceleration = 1f;
     public float Deceleration = 0.1f;
-    public float TurningSpeed = 5f;
     public float AttackCooldown = 1f;
     private float _attackCooldownTimer = 0f;
-    [SerializeField] private float _mouseSensitivity = 100f;
-    float _yaw = 0f;
-    float _pitch = 0f;
 
     void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         IdleState = new PlayerIdle();
         MoveState = new PlayerMove();
         AttackState = new PlayerAttack();
 
-        PlayerState = new StateMachine<PlayerController>(this, IdleState);
-    }
-
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
+        _playerState = new StateMachine<PlayerController>(this, IdleState);
     }
 
     void Update()
     {
-        PlayerState.Update();
-        HandleLookDirection();
-        HandleGravity();
+        _playerState.Update();
         HandleTimer();
-    }
-    
-    //Function untuk menggerakkan player relatif arah pandang player (arah kamera)
-    public void MoveLookDirection(Vector3 moveDirection, float speed)
-    {
-        Vector3 lookDirection = LookDirection.TransformDirection(moveDirection);
-
-        lookDirection.y = 0f;
-        Vector3 velocity = lookDirection * RunningSpeed;
-        
-        CharacterController.Move(velocity * Time.deltaTime);
-
-        if (lookDirection != Vector3.zero)
-        {
-            Model.transform.rotation = Quaternion.Slerp(
-                Model.transform.rotation, 
-                Quaternion.LookRotation(lookDirection), 
-                TurningSpeed * Time.deltaTime);
-        }
-    }
-
-    void HandleLookDirection()
-    {
-        Vector2 lookInput = LookAction.action.ReadValue<Vector2>();
-        float mouseX = lookInput.x * _mouseSensitivity * Time.deltaTime;
-        float mouseY = lookInput.y * _mouseSensitivity * Time.deltaTime;
-
-        _yaw += mouseX;
-        _pitch -= mouseY;
-
-        _pitch = Mathf.Clamp(_pitch, -25f, 80f);
-
-        LookDirection.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
-    }
-
-    void HandleGravity()
-    {
-        if (GravityEnabled && !CharacterController.isGrounded)
-        {
-            CharacterController.Move(Physics.gravity * Time.deltaTime);
-        }
     }
 
     void HandleTimer()
     {
         if (_attackCooldownTimer > 0) _attackCooldownTimer -= Time.deltaTime;
     }
-
-    void OnAttack()
-    {
-        if (_attackCooldownTimer > 0) return;
-
-        _attackCooldownTimer = AttackCooldown;
-        PlayerState.Interrupt(AttackState);
-    }
+    
+    public void ChangeState(IState<PlayerController> state) => _playerState.ChangeState(state);
+    public void InterruptState(IState<PlayerController> state) => _playerState.Interrupt(state);
+    public bool HasTarget() => _target != null;
+    public void Move(Vector3 moveDirection) => _movement.Move(_lookDirection.transform, moveDirection, _runningSpeed);
+    public float GetMovementLean() => _movement.GetMovementLean(_rotation.transform);
+    public Vector3 GetVelocity() => _movement.Velocity;
+    public void LookForward() => _rotation.LookForward(_movement.Velocity.normalized, _turningSpeed);
+    public void LockIn() => _rotation.transform.LookAt(_target.position);
 }
