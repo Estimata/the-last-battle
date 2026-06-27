@@ -1,15 +1,27 @@
 using UnityEngine;
+using Unity.Cinemachine;
 using System.Collections.Generic;
 
 public class BattleController : MonoBehaviour
 {
-    public StateMachine<BattleController> BattleState { get; private set; }
+    [SerializeField] private CinemachineTargetGroup _fighterGroup;
+    [SerializeField] private BattleNavigation _battleNavigation;
 
-    public void BattleEntered(IReadOnlyList<FighterController> fighters)
+    private StateMachine<BattleController> battleState;
+    
+    public void BattleEntered(BattleContext context)
     {
-        foreach (FighterController fighter in fighters)
+        _battleNavigation.SetupNavigation(
+            context.Fighters,
+            context.BattleCenter
+        );
+
+        foreach (FighterController fighter in context.Fighters)
         {
-            Debug.Log(fighter);
+            Vector3 initialPosition = _battleNavigation.FindInitialPosition(fighter);
+            _fighterGroup.AddMember(fighter.transform, 1f, 1f);
+
+            fighter.InitiatePosition(initialPosition);
         }
     }
 
@@ -19,10 +31,10 @@ public class BattleController : MonoBehaviour
     }
 
     private void OnEnable() {
-        BattleInitiator.OnBattleInitiated += BattleEntered;
+        BattleInitiator.OnBattleReady += BattleEntered;
     }
 
     private void OnDisable() {
-        BattleInitiator.OnBattleInitiated -= BattleEntered;
+        BattleInitiator.OnBattleReady -= BattleEntered;
     }
 }

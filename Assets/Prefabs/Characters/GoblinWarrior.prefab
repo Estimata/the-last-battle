@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 5162878105503355759}
   - component: {fileID: 6503525547184592288}
   - component: {fileID: 6710256663013367302}
-  - component: {fileID: 4421972712963547742}
-  m_Layer: 0
+  - component: {fileID: 2170980852403947032}
+  - component: {fileID: 7040978595375923526}
+  m_Layer: 7
   m_Name: GoblinWarrior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +103,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 180
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -123,8 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84be9962172ca8b4f8925f4068086bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  Animator: {fileID: 0}
-  NavAgent: {fileID: 0}
+  Animator: {fileID: 8231876339908475087}
+  _agent: {fileID: 5162878105503355759}
+  _agentMovement: {fileID: 7040978595375923526}
+  _rotation: {fileID: 267665479627713039}
 --- !u!114 &6710256663013367302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,8 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83eebb9a7df208c408535f7ac4187a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleInitiator
-  IsAlly: 0
---- !u!114 &4421972712963547742
+--- !u!114 &2170980852403947032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,9 +149,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5284326252895133245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f72f7e0197f20f4e9c0c95777c5b1b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 29e7c0591487e3541b686d53dcbd7622, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleController
+  m_EditorClassIdentifier: Assembly-CSharp::FighterController
+  _agent: {fileID: 5162878105503355759}
+  agentMovement: {fileID: 7040978595375923526}
+  _rotation: {fileID: 267665479627713039}
+  IsAlly: 0
+--- !u!114 &7040978595375923526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284326252895133245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e539e6917a09a4bb01215f0bf31a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _agent: {fileID: 5162878105503355759}
 --- !u!1 &7115886673615163481
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5951713869947635670}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LookDirection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,6 +423,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1411808199387564bb161735d6b0a619, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8231876339908475087}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1411808199387564bb161735d6b0a619, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 267665479627713039}
   m_SourcePrefab: {fileID: 100100000, guid: 1411808199387564bb161735d6b0a619, type: 3}
 --- !u!1 &5022049628304815144 stripped
 GameObject:
@@ -432,6 +454,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &267665479627713039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5022049628304815144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97754e0b24fa7449bf72faf1949c366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotation
 --- !u!4 &5690921741015969426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1411808199387564bb161735d6b0a619, type: 3}
