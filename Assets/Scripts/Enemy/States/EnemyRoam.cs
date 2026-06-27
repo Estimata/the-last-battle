@@ -20,7 +20,8 @@ public class EnemyRoam : State<EnemyController>
     public override void Update(EnemyController enemy)
     {
         if (_isMoving) {
-            if (HasArrived(enemy))
+            enemy.LookForward();
+            if (enemy.HasArrived())
             {
                 enemy.Animator.SetFloat(_velocityHash, 0f);
                 _isMoving = false;
@@ -33,7 +34,7 @@ public class EnemyRoam : State<EnemyController>
         if (_idleDurationTimer <= 0f)
         {
             enemy.Animator.SetFloat(_velocityHash, 0.3f);
-            enemy.NavAgent.SetDestination(GetRandomPosition());
+            enemy.SetDestination(GetRandomPosition());
 
             _idleDurationTimer = _idleDuration;
             _isMoving = true;
@@ -41,23 +42,14 @@ public class EnemyRoam : State<EnemyController>
 
     }
 
-    private bool HasArrived(EnemyController enemy)
-    {
-        return (
-            !enemy.NavAgent.pathPending &&
-            enemy.NavAgent.remainingDistance <= enemy.NavAgent.stoppingDistance &&
-            !enemy.NavAgent.hasPath);
-    }
-
     private Vector3 GetRandomPosition()
     {
         Vector3 randomPosition = Random.insideUnitSphere * _moveDistance;
         randomPosition += _initialPosition;
 
-        NavMeshHit hit;
-        NavMesh.SamplePosition(randomPosition, out hit, _moveDistance, NavMesh.AllAreas);
+        NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, _moveDistance, NavMesh.AllAreas);
+        return hit.position;    
 
-        return hit.position;
     }
 
 }

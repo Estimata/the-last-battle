@@ -18,14 +18,13 @@ public class PlayerMove : State<PlayerController>
             float horizontal = player.GetMovementLean();
             if (Mathf.Abs(horizontal) >= 0.3){
                 player.Animator.SetLayerWeight(2, 1f);
+                player.Animator.SetFloat(_horizontalDirectionHash, horizontal == 0 ? 0 : Mathf.Sign(horizontal));
             }
             else
             {
                 player.Animator.SetLayerWeight(2, 0f);
-                
+                player.Animator.SetFloat(_velocityHash, moveInput.magnitude);
             }
-
-            player.Animator.SetFloat(_horizontalDirectionHash, horizontal == 0 ? 0 : Mathf.Sign(horizontal));
         }
         else
         {        
@@ -37,5 +36,11 @@ public class PlayerMove : State<PlayerController>
         {
             player.ChangeState(player.IdleState);
         }
+    }
+
+    public override void Exit(PlayerController player)
+    {
+        player.Animator.SetLayerWeight(2, 0f);
+
     }
 }

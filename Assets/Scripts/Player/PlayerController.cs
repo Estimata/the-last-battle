@@ -26,7 +26,11 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
-
+        InitializeStates();
+    }
+    
+    public void InitializeStates()
+    {
         IdleState = new PlayerIdle();
         MoveState = new PlayerMove();
         AttackState = new PlayerAttack();
@@ -47,7 +51,11 @@ public class PlayerController : MonoBehaviour
     
     public void ChangeState(IState<PlayerController> state) => _playerState.ChangeState(state);
     public void InterruptState(IState<PlayerController> state) => _playerState.Interrupt(state);
-
+    private void BattleEntered()
+    {
+        _target = null;
+        _playerState.Disable();
+    }
     public bool HasTarget() => _target != null;
 
     public void Move(Vector3 moveDirection) => _movement.Move(_lookDirection.transform, moveDirection, _runningSpeed);
@@ -56,4 +64,8 @@ public class PlayerController : MonoBehaviour
     
     public void LookForward() => _rotation.LookForward(_movement.Velocity.normalized, _turningSpeed);
     public void LockIn() => _rotation.transform.LookAt(_target.position);
+
+    private void OnEnable() {
+        BattleInitiator.OnBattleInitiated += BattleEntered;
+    }
 }
