@@ -6,8 +6,7 @@ public class BattleController : MonoBehaviour
 {
     [SerializeField] private CinemachineTargetGroup _fighterGroup;
     [SerializeField] private BattleNavigation _battleNavigation;
-
-    private StateMachine<BattleController> battleState;
+    private StateMachine<BattleController> _battleState;
     
     public void BattleEntered(BattleContext context)
     {
@@ -23,6 +22,13 @@ public class BattleController : MonoBehaviour
 
             fighter.InitiatePosition(initialPosition);
         }
+
+        BattleStart();
+    }
+
+    public void BattleStart()
+    {
+        
     }
 
     public void BattleExited()
