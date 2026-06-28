@@ -2,15 +2,7 @@ using UnityEngine;
 
 public class BattleUIController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private UIFighterTurnPanel _turnPanel;
+    
+    public void RegisterFighterTurn(Sprite[] sprites) => _turnPanel.RegisterFighterTurn(sprites);
 }

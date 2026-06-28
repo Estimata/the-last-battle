@@ -4,9 +4,12 @@ using UnityEngine.AI;
 public class FighterController : MonoBehaviour
 {
     public Animator Animator;
+    public Stats Stats;
+    [SerializeField] private FighterData _fighterData;
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private NavAgentMovement agentMovement;
     [SerializeField] private Rotation _rotation;
+    [SerializeField] private Health _health;
 
     private StateMachine<FighterController> _fighterState;
     public FighterStandby StandbyState { get; private set; }
@@ -18,6 +21,10 @@ public class FighterController : MonoBehaviour
 
     private void Awake() {
         InitializeStates();
+        _health.Initialize(_fighterData);
+        //Sementara tidak ada stat Modifier
+        Stats.Initialize(_fighterData);
+
     }
 
     public void InitializeStates()
@@ -42,7 +49,6 @@ public class FighterController : MonoBehaviour
 
     public void ChangeState(IState<FighterController> state) => _fighterState.ChangeState(state);
     public void InterruptState(IState<FighterController> state) => _fighterState.Interrupt(state);
-    private void BattleEntered() => _fighterState.Enable();
 
     public void SetDestination(Vector3 target) => _agent.SetDestination(target);
     public void Return() => _agent.SetDestination(_battlePosition);
@@ -51,6 +57,7 @@ public class FighterController : MonoBehaviour
     public void LookForward() => _rotation.LookForward(_agent.velocity.normalized, _turningSpeed);
 
 
+    private void BattleEntered() => _fighterState.Enable();
     private void OnEnable() {
         BattleInitiator.OnBattleInitiated += BattleEntered;
     }

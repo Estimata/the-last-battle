@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private int _maxMP;
+    private int _attack;
+    private int _defense;
+    private int _speed;
+    private float _crit;
+
+    public void Initialize(FighterData fighterData)
     {
-        
+        _maxMP = fighterData.MP;
+        _attack = fighterData.ATK;
+        _defense = fighterData.DEF;
+        _speed = fighterData.SPD;
+        _crit = fighterData.CRIT;
     }
 }
