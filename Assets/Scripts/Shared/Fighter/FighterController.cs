@@ -12,6 +12,7 @@ public class FighterController : MonoBehaviour
     public FighterStandby StandbyState { get; private set; }
     public FighterReturn ReturnState { get; private set; }
     public bool IsAlly;
+    private Transform _target;
     private Vector3 _battlePosition;
     private float _turningSpeed = 5;
 
