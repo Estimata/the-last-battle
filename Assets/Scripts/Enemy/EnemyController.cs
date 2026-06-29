@@ -40,7 +40,6 @@ public class EnemyController : MonoBehaviour
 
     public void LookForward() => _rotation.LookForward(_agent.velocity.normalized, _turningSpeed);
 
-    private void OnEnable() {
-        BattleInitiator.OnBattleInitiated += BattleEntered;
-    }
+    private void OnEnable() => BattleInitiator.OnBattleInitiated += BattleEntered;
+    private void OnDisable() => BattleInitiator.OnBattleInitiated -= BattleEntered;
 }

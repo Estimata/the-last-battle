@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4712f2ae1da609c47926a1bbed1c902a, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: Assembly-CSharp::FighterData
-  fighterName: Goblin
-  maxHp: 100
-  attack: 10
-  defense: 5
-  speed: 8
-  critChance: 0.1
-  baseAction: {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
-  skills:
-  - {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
-  - {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
+  FighterName: Goblin
+  HP: 100
+  MP: 100
+  ATK: 10
+  DEF: 5
+  SPD: 8
+  CRIT: 0.1
+  BasicAction: {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
+  Skills: []

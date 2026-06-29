@@ -29,12 +29,7 @@ public class UIFighterTurnPanel : MonoBehaviour
             image.color = color;
             
             sequence.Chain(
-                Tween.UIAnchoredPosition(
-                    rect, 
-                    endValue: initialPosition,
-                    duration: 0.45f, 
-                    ease: Ease.OutCubic
-                )
+                Tween.UIAnchoredPosition(rect, initialPosition, 0.45f, Ease.OutCubic)
             );
         }
         

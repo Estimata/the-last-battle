@@ -3,18 +3,22 @@ using System.Collections.Generic;
 
 public class FighterTurn : MonoBehaviour
 {
-    private List<FighterController> _fighterQueue;
+    public List<FighterController> FighterQueue { get; private set; }
     
     public List<FighterController> CreateQueue(List<FighterController> fighters)
     {
-        fighters.Sort((a, b) => a.Stats.Speed.CompareTo(b.Stats.Speed));
-        _fighterQueue = fighters;
-        return _fighterQueue;
+        fighters.Sort((a, b) => b.Stats.Speed.CompareTo(a.Stats.Speed));
+        FighterQueue = fighters;
+        return FighterQueue;
     }
 
-    public FighterController GetCurrentFighter()
+    public FighterController GetTurnAndAdvance()
     {
-        return _fighterQueue[0];
+        FighterController fighterTurn = FighterQueue[0];
+        FighterQueue.RemoveAt(0);
+        FighterQueue.Add(fighterTurn);
+
+        return FighterQueue[0];
     }
 
 }

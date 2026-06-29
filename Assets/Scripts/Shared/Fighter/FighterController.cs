@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class FighterController : MonoBehaviour
 {
@@ -59,6 +60,9 @@ public class FighterController : MonoBehaviour
 
     public bool HasTarget() => _target != null;
     public void SetTarget(Transform target) => _target = target;
+
+    public FighterAction GetBasicAction() => _fighterData.BasicAction;
+    public List<FighterAction> GetSkills() => _fighterData.Skills;
 
     private void BattleEntered() => _fighterState.Enable();
     private void OnEnable() {

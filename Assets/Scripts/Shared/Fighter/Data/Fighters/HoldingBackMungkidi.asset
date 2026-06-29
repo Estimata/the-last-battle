@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4712f2ae1da609c47926a1bbed1c902a, type: 3}
   m_Name: HoldingBackMungkidi
   m_EditorClassIdentifier: Assembly-CSharp::FighterData
-  fighterName: Mungkidi (Menahan Diri)
+  FighterName: Mungkidi (Menahan Diri)
   HP: 10000
   MP: 10000
   ATK: 10
   DEF: 500
   SPD: 800
   CRIT: 0.1
-  baseAction: {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
-  skills:
+  BasicAction: {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
+  Skills:
   - {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}
   - {fileID: 11400000, guid: 8d7c26d010859ea44b5e76552958a96b, type: 2}

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float AttackCooldown = 1f;
     private float _attackCooldownTimer = 0f;
 
-    void Awake()
+    private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         InitializeStates();
@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
         _target = null;
         _playerState.Disable();
     }
+    
     public bool HasTarget() => _target != null;
 
     public void Move(Vector3 moveDirection) => _movement.Move(_lookDirection.transform, moveDirection, _runningSpeed);
@@ -65,7 +66,6 @@ public class PlayerController : MonoBehaviour
     public void LookForward() => _rotation.LookForward(_movement.Velocity.normalized, _turningSpeed);
     public void LockIn() => _rotation.transform.LookAt(_target.position);
 
-    private void OnEnable() {
-        BattleInitiator.OnBattleInitiated += BattleEntered;
-    }
+    private void OnEnable() => BattleInitiator.OnBattleInitiated += BattleEntered;
+    private void OnDisable() => BattleInitiator.OnBattleInitiated -= BattleEntered;
 }

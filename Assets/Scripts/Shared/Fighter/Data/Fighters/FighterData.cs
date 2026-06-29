@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class FighterData : ScriptableObject
 {
     [Header("Info")]
-    public string fighterName;
+    public string FighterName;
 
     [Header("Stats")]
     public int HP = 100;
@@ -16,6 +16,6 @@ public class FighterData : ScriptableObject
     public float CRIT = 0.1f;
 
     [Header("Battle")]
-    public FighterAction baseAction;
-    public List<FighterAction> skills;
+    public FighterAction BasicAction;
+    public List<FighterAction> Skills;
 }
