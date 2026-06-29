@@ -19,6 +19,8 @@ public class FighterStandby : State<FighterController>
     
     public override void Update(FighterController fighter)
     {
+        if (fighter.HasTarget()) fighter.LockIn();
+        
         if (_isMoving) {
             fighter.LookForward();
             if (fighter.HasArrived())

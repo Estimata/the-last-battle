@@ -55,7 +55,10 @@ public class FighterController : MonoBehaviour
     public bool HasArrived() => agentMovement.HasArrived();
 
     public void LookForward() => _rotation.LookForward(_agent.velocity.normalized, _turningSpeed);
+    public void LockIn() => _rotation.transform.LookAt(_target.position);
 
+    public bool HasTarget() => _target != null;
+    public void SetTarget(Transform target) => _target = target;
 
     private void BattleEntered() => _fighterState.Enable();
     private void OnEnable() {
