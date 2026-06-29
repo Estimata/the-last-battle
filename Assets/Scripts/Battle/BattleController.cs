@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BattleController : MonoBehaviour
 {
-    [SerializeField] private BattleUIController _battleUIController;
+    public BattleUIController BattleUI;
     [SerializeField] private CinemachineTargetGroup _fighterGroup;
     [SerializeField] private BattleNavigation _battleNavigation;
     [SerializeField] private FighterTurn _fighterTurn;
@@ -26,7 +26,7 @@ public class BattleController : MonoBehaviour
 
     public void ChangeState(IState<BattleController> state) => _battleState.ChangeState(state);
     public void InterruptState(IState<BattleController> state) => _battleState.Interrupt(state);
-    public void CreateQueue() => _fighterTurn.CreateQueue(_remainingFighter);
+    public List<FighterController> CreateQueue() => _fighterTurn.CreateQueue(_remainingFighter);
 
 
 
@@ -47,13 +47,10 @@ public class BattleController : MonoBehaviour
             fighter.InitiatePosition(initialPosition);
         }
 
-        BattleStart();
-    }
+        BattleUI.ShowFighterQueue();
 
-    public void BattleStart()
-    {   
-        InterruptState(PrepareTurnState);
         _battleState.Enable();
+        InterruptState(PrepareTurnState);
     }
 
     public void BattleExited()

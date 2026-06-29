@@ -32,6 +32,7 @@ public class StateMachine<T>
 
     public void Interrupt(IState<T> newState)
     {
+        if (_currentState == newState) return;
         if (_currentState.CanBeInterrupted(newState)) ChangeState(newState);
     }
 
