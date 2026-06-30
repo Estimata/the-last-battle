@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 6710256663013367302}
   - component: {fileID: 2170980852403947032}
   - component: {fileID: 7040978595375923526}
+  - component: {fileID: 1795834524839909123}
+  - component: {fileID: 492874564021444994}
   m_Layer: 7
   m_Name: GoblinWarrior
   m_TagString: Untagged
@@ -128,6 +130,7 @@ MonoBehaviour:
   _agent: {fileID: 5162878105503355759}
   _agentMovement: {fileID: 7040978595375923526}
   _rotation: {fileID: 267665479627713039}
+  _turningSpeed: 5
 --- !u!114 &6710256663013367302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,9 +155,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e7c0591487e3541b686d53dcbd7622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FighterController
+  Animator: {fileID: 8231876339908475087}
+  Stats: {fileID: 492874564021444994}
+  _fighterData: {fileID: 11400000, guid: 30a0f91444847f2429b2956e243f5e4b, type: 2}
   _agent: {fileID: 5162878105503355759}
   agentMovement: {fileID: 7040978595375923526}
   _rotation: {fileID: 267665479627713039}
+  _health: {fileID: 1795834524839909123}
   IsAlly: 0
 --- !u!114 &7040978595375923526
 MonoBehaviour:
@@ -169,6 +176,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _agent: {fileID: 5162878105503355759}
+--- !u!114 &1795834524839909123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284326252895133245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b34839a879c284e94cd25b6b9dc1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!114 &492874564021444994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284326252895133245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b718868ebf99624a9054fb471bf7dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stats
+  MaxMP: 0
+  Attack: 0
+  Defense: 0
+  Speed: 0
+  Crit: 0
 --- !u!1 &7115886673615163481
 GameObject:
   m_ObjectHideFlags: 0

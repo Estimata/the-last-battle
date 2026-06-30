@@ -2383,7 +2383,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8417561012269855248}
-  - component: {fileID: 6245591617910827870}
   - component: {fileID: 6959174404143873406}
   - component: {fileID: 8021861087831761915}
   - component: {fileID: 1796585244291101949}
@@ -2393,6 +2392,9 @@ GameObject:
   - component: {fileID: 5744800865855124046}
   - component: {fileID: 604973312403517962}
   - component: {fileID: 4238919470884604698}
+  - component: {fileID: 2066692667574154175}
+  - component: {fileID: 3656225300933266177}
+  - component: {fileID: 5105971513839172069}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2417,36 +2419,6 @@ Transform:
   - {fileID: 2785004451914965522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6245591617910827870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8100777167088740846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!54 &6959174404143873406
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2595,9 +2567,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e7c0591487e3541b686d53dcbd7622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FighterController
-  _agent: {fileID: 0}
-  agentMovement: {fileID: 0}
-  _rotation: {fileID: 0}
+  Animator: {fileID: 4518831446279421992}
+  Stats: {fileID: 3656225300933266177}
+  _fighterData: {fileID: 11400000, guid: bf93b6c2ec9a675489e5b3770013a449, type: 2}
+  _agent: {fileID: 8021861087831761915}
+  agentMovement: {fileID: 4238919470884604698}
+  _rotation: {fileID: 8049959799187684183}
+  _health: {fileID: 2066692667574154175}
   IsAlly: 1
 --- !u!114 &4238919470884604698
 MonoBehaviour:
@@ -2612,6 +2588,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavAgentMovement
   _agent: {fileID: 8021861087831761915}
+--- !u!114 &2066692667574154175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8100777167088740846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b34839a879c284e94cd25b6b9dc1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!114 &3656225300933266177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8100777167088740846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b718868ebf99624a9054fb471bf7dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stats
+  MaxMP: 0
+  Attack: 0
+  Defense: 0
+  Speed: 0
+  Crit: 0
+--- !u!114 &5105971513839172069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8100777167088740846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5f9066dc7221b46a5a02346fa096d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &8173399726365341322
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class BattleController : MonoBehaviour
     [SerializeField] private FighterTurn _fighterTurn;
     [SerializeField] private FighterManager _fighterManager;
     [SerializeField] private PlayerAction _playerAction;
+    [SerializeField] private FighterSelector _fighterSelector;
     
     private StateMachine<BattleController> _battleState;
     public PrepareTurn PrepareTurnState { get; private set; }
@@ -37,10 +38,16 @@ public class BattleController : MonoBehaviour
 
     public void ChangeState(IState<BattleController> state) => _battleState.ChangeState(state);
     public void InterruptState(IState<BattleController> state) => _battleState.Interrupt(state);
+
     public List<FighterController> CreateQueue() => _fighterTurn.CreateQueue(_remainingFighter);
     public FighterController GetFighterTurn() => _fighterTurn.FighterQueue[0];
     public FighterController GetTurnAndAdvance() => _fighterTurn.GetTurnAndAdvance();
 
+    public FighterController GetSelectedFighter() => _fighterSelector.SelectedFighter;
+    public void SelectFighter(FighterController fighter) => _fighterSelector.SetFighter(fighter);
+    public void FighterSelected(FighterController fighter) => BattleUI.ShowFighterDetail(fighter.GetFighterData());
+
+    public void ShowActionMenu() => BattleUI.ShowActionMenu();
     public void SetPlayerAction()
     {
         FighterController player = GetFighterTurn();
@@ -86,9 +93,11 @@ public class BattleController : MonoBehaviour
  
     private void OnEnable() {
         BattleInitiator.OnBattleReady += BattleEntered;
+        _fighterSelector.OnFighterSelected += FighterSelected;
     }
 
     private void OnDisable() {
         BattleInitiator.OnBattleReady -= BattleEntered;
+        _fighterSelector.OnFighterSelected -= FighterSelected;
     }
 }

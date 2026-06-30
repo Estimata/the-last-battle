@@ -631,6 +631,8 @@ GameObject:
   - component: {fileID: 6370650137105219510}
   - component: {fileID: 5248018402992327310}
   - component: {fileID: 4409009635492820091}
+  - component: {fileID: 4011450441147010352}
+  - component: {fileID: 4205970350380645991}
   m_Layer: 6
   m_Name: NPC
   m_TagString: Untagged
@@ -701,7 +703,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -751,9 +753,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e7c0591487e3541b686d53dcbd7622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FighterController
+  Animator: {fileID: 5251526047622952954}
+  Stats: {fileID: 4205970350380645991}
+  _fighterData: {fileID: 11400000, guid: 651bb0c12113e004191187d187a46251, type: 2}
   _agent: {fileID: 4120286327824605887}
   agentMovement: {fileID: 4409009635492820091}
   _rotation: {fileID: 8575304100310022044}
+  _health: {fileID: 4011450441147010352}
   IsAlly: 1
 --- !u!114 &4409009635492820091
 MonoBehaviour:
@@ -768,6 +774,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavAgentMovement
   _agent: {fileID: 4120286327824605887}
+--- !u!114 &4011450441147010352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207602912651110509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b34839a879c284e94cd25b6b9dc1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!114 &4205970350380645991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207602912651110509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b718868ebf99624a9054fb471bf7dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stats
+  MaxMP: 0
+  Attack: 0
+  Defense: 0
+  Speed: 0
+  Crit: 0
 --- !u!1 &2387577623756022363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,9 +1395,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5026082953772818308}
-  m_Enabled: 0
-  m_Avatar: {fileID: 9000000, guid: 0308cf4e83cf517488b60af58b290fe0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2be64f57d7d213648aa9b2e5e8e0a39b, type: 2}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4bff3a58587df784fa9f43568e12a211, type: 2}
+  m_Controller: {fileID: 9100000, guid: b6585164eb9a40c45b60cdcb333095e6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

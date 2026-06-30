@@ -5,18 +5,28 @@ public class InputHandler : MonoBehaviour
 {
     [SerializeField] private PlayerController _player;
     [SerializeField] private LookDirectionController _lookDirection;
+    private InputSystem_Actions _controls;
 
-    private bool _inBattle = false;
+    private void Awake() => _controls = new InputSystem_Actions();
 
-    private void OnLook(InputValue lookDirection)
+    private void OnLook(InputAction.CallbackContext lookDirection) => _lookDirection.Look(lookDirection.ReadValue<Vector2>());
+    private void OnAttack(InputAction.CallbackContext context) => _player.InterruptState(_player.AttackState);
+
+    private void BattleEntered() => _controls.Player.Disable();
+
+    private void OnEnable()
+    { 
+        _controls.Player.Enable();
+        _controls.Player.Attack.performed += OnAttack;
+        _controls.Player.Look.performed += OnLook;
+        BattleInitiator.OnBattleInitiated += BattleEntered;
+    }
+    
+    private void OnDisable() 
     {
-        if (!_inBattle) _lookDirection.Look(lookDirection.Get<Vector2>());
+        _controls.Player.Disable();
+        _controls.Player.Attack.performed -= OnAttack;
+        _controls.Player.Look.performed -= OnLook;
+        BattleInitiator.OnBattleInitiated -= BattleEntered;
     }
-    private void OnAttack(){
-       if (!_inBattle) _player.InterruptState(_player.AttackState);
-    }
-
-    private void BattleEntered() => _inBattle = true;
-    private void OnEnable() => BattleInitiator.OnBattleInitiated += BattleEntered;
-    private void OnDisable() => BattleInitiator.OnBattleInitiated -= BattleEntered;
 }
