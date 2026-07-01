@@ -12,10 +12,13 @@ public class PlayerAction : MonoBehaviour
         _skills = fighter.GetSkills();
     }
 
-    public void SelectedAction(FighterAction action)
+    public void SelectedAction(FighterAction action) => _selectedAction = action;
+    public FighterAction GetSelectedAction() => _selectedAction;
+    public void ExecuteAction(FighterController user, FighterController target, BattleContext context)
     {
-        _selectedAction = action;
-        Debug.Log($"Selected Action: {action.ActionName}");
+        if (_selectedAction == null) return;
+        Debug.Log($"Executing {_selectedAction.ActionName} from {user.name} to {target.name}");
+        // _selectedAction.Execute(user, target, context);
     }
 
 }

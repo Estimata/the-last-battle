@@ -27,6 +27,13 @@ public class CameraManager : MonoBehaviour
 
     private void FocusOnFighter(FighterController fighter)
     {
+        if (fighter == null)
+        {
+            _hasTarget = false;
+            _fighterDetailCamera.Priority = 0;
+            return;
+        }
+        
         _fighterDetailCamera.Target.TrackingTarget = fighter.transform;
         _fighterDetailCamera.Target.LookAtTarget = fighter.transform;
         _hasTarget = true;

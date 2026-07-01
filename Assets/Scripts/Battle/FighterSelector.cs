@@ -19,8 +19,18 @@ public class FighterSelector : MonoBehaviour
         Vector2 target = _controls.Battle.Point.ReadValue<Vector2>();
         Ray ray = _camera.ScreenPointToRay(target);
         
-        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
-        if (!hit.collider.TryGetComponent(out FighterController fighter)) return;
+        if (!Physics.Raycast(ray, out RaycastHit hit))
+        {
+            SelectedFighter = null;
+            OnFighterSelected?.Invoke(null);
+            return;
+        }
+        if (!hit.collider.TryGetComponent(out FighterController fighter))
+        {
+            SelectedFighter = null;
+            OnFighterSelected?.Invoke(null);
+            return;
+        }
         if (fighter == SelectedFighter) return;
 
         SelectedFighter = fighter;
