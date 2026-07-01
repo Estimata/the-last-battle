@@ -22,7 +22,7 @@ public class FighterManager : MonoBehaviour
             }
         }
     }
-    public Transform FindNearestTarget(FighterController finder)
+    public FighterController FindNearestTarget(FighterController finder)
     {
         if (finder.IsAlly)
         {
@@ -34,7 +34,7 @@ public class FighterManager : MonoBehaviour
                     finder.transform.position)
                 )
             );
-            return _enemies[0].transform;
+            return _enemies[0];
         }
         else
         {
@@ -46,7 +46,7 @@ public class FighterManager : MonoBehaviour
                     finder.transform.position)
                 )
             );
-            return _allies[0].transform;
+            return _allies[0];
         }
     }
 }

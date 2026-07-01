@@ -2,33 +2,57 @@ using UnityEngine;
 
 public class PlayerTurn : State<BattleController>
 {
+    private BattleController _battle;
     public override void Enter(BattleController battle)
     {
+        _battle = battle;
         battle.SetPlayerAction();
         battle.ShowActionMenu();
-        battle.FighterSelector.OnFighterSelected += (fighter) => FighterSelected(fighter, battle);
+        battle.FighterSelector.OnFighterSelected += FighterSelected;
         
     }
 
-    public void FighterSelected(FighterController fighter, BattleController battle) {
+    public void FighterSelected(FighterController fighter) {
         if (fighter == null) {
-            battle.BattleUI.HideFighterDetail();
-            battle.CancelAction();
+            _battle.BattleUI.HideFighterDetail();
+            _battle.CancelAction();
             return;
         }
 
-        if (battle.IsActionSelected())
+        if (_battle.IsActionSelected())
         {
-            battle.ExecuteAction(fighter);
-            battle.SelectFighter(null);
+            _battle.ExecuteAction(fighter);
+            _battle.SelectFighter(null);
+            TurnOver(_battle);
             return;
         }
 
-        battle.BattleUI.ShowFighterDetail(fighter.GetFighterData());
+        _battle.BattleUI.ShowFighterDetail(fighter.GetFighterData());
+    }
+
+    private async void TurnOver(BattleController battle)
+    {
+        FighterController fighterTurn = await battle.GetTurnAndAdvance();
+        if (fighterTurn == null)
+        {
+            battle.ChangeState(battle.PrepareTurnState);
+            return;
+        }
+        
+        if (fighterTurn.IsAlly)
+        {
+            battle.SetPlayerAction();
+            battle.ShowActionMenu();
+        }
+        else
+        {
+            battle.ChangeState(battle.EnemyTurnState);
+        }
     }
 
     public override void Exit(BattleController battle)
     {
-        battle.FighterSelector.OnFighterSelected -= (fighter) => FighterSelected(fighter, battle);
+        Debug.Log("Exiting PlayerTurn");
+        battle.FighterSelector.OnFighterSelected -= FighterSelected;
     }
 }

@@ -24,8 +24,7 @@ public class FighterDetail : MonoBehaviour
 
         Tween.Scale(transform, Vector3.zero, Vector3.one, 0.45f, Ease.OutBack);
     }
-    public void HideDetail()
-    {
+    public void HideDetail() {
         if (transform.localScale == Vector3.zero) return;
         Tween.Scale(transform, Vector3.zero, 0.45f, Ease.InBack);
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
-using System;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 public class BattleUIController : MonoBehaviour
@@ -19,7 +19,8 @@ public class BattleUIController : MonoBehaviour
         _returnButton.onClick.AddListener(ReturnToActionMenu);
     }
 
-    public void RegisterFighterTurn(List<FighterController> fighters, Action onComplete) => _turnPanel.RegisterFighterTurn(fighters, onComplete);
+    public async Task RegisterFighterTurn(List<FighterController> fighters) => await _turnPanel.RegisterFighterTurn(fighters);
+    public async Task RemoveFighterFromQueue(FighterController fighter) => await _turnPanel.RemoveFighterFromQueue(fighter);
     public Button RegisterBasicActionButton(FighterAction action) {
         Button button = _actionMenu.RegisterBasicActionButton(action);
         _actionButtons.Add(button);
@@ -63,6 +64,12 @@ public class BattleUIController : MonoBehaviour
             FighterActionButton actionButton = button.GetComponent<FighterActionButton>();
             actionButton.Unselected();
         }
+    }
+    public async Task ClearActionButtons()
+    {
+        _actionButtons.Clear();
+        await _actionMenu.HideActionMenu();
+        await _skillMenu.HideSkillMenu();
     }
 
     private void ButtonSelected(Button button)

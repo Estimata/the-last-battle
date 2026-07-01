@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 public class BattleController : MonoBehaviour
@@ -43,7 +44,12 @@ public class BattleController : MonoBehaviour
 
     public List<FighterController> CreateQueue() => _fighterTurn.CreateQueue(_remainingFighter);
     public FighterController GetFighterTurn() => _fighterTurn.FighterQueue[0];
-    public FighterController GetTurnAndAdvance() => _fighterTurn.GetTurnAndAdvance();
+    public async Task<FighterController> GetTurnAndAdvance() 
+    {
+        await BattleUI.RemoveFighterFromQueue(GetFighterTurn());
+        await BattleUI.ClearActionButtons();
+        return _fighterTurn.GetTurnAndAdvance();
+    }
 
     public FighterController GetSelectedFighter() => FighterSelector.SelectedFighter;
     public void SelectFighter(FighterController fighter) => FighterSelector.SetFighter(fighter);
@@ -78,6 +84,8 @@ public class BattleController : MonoBehaviour
         _playerAction.ExecuteAction(user, target, _battleContext);
     }
 
+    public FighterController FindNearestTarget(FighterController fighter) => _fighterManager.FindNearestTarget(fighter);
+
 
 
     public void BattleEntered(BattleContext context)
@@ -100,7 +108,7 @@ public class BattleController : MonoBehaviour
             _fighterGroup.AddMember(fighter.transform, 1f, 1f);
 
             fighter.InitiatePosition(initialPosition);
-            fighter.SetTarget(_fighterManager.FindNearestTarget(fighter));
+            fighter.SetTarget(FindNearestTarget(fighter).transform);
         }
 
         

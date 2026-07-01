@@ -31,6 +31,8 @@ public class SkillMenu : MonoBehaviour
         foreach (FighterActionButton button in _skillActions)
         {
             RectTransform actionButton = button.GetComponent<RectTransform>();
+            if (actionButton.localScale == Vector3.one) return;
+
             sequence.Insert(delay, Tween.Scale(actionButton, Vector3.one, 0.45f, Ease.OutBack));
             delay += 0.08f;
         }
@@ -44,11 +46,13 @@ public class SkillMenu : MonoBehaviour
         foreach (FighterActionButton button in _skillActions)
         {
             RectTransform actionButton = button.GetComponent<RectTransform>();
-            sequence.Insert(delay, Tween.Scale(actionButton, Vector3.zero, 0.45f, Ease.InBack));
+            if (actionButton.localScale == Vector3.zero) return;
+            
+            _ = sequence.Insert(delay, Tween.Scale(actionButton, Vector3.zero, 0.45f, Ease.InBack));
             delay += 0.08f;
         }
 
-        sequence.Insert(delay, Tween.Scale(_returnButton, Vector3.zero, 0.45f, Ease.InBack));
+        _ = sequence.Insert(delay, Tween.Scale(_returnButton, Vector3.zero, 0.45f, Ease.InBack));
         await sequence;
     }
 

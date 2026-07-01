@@ -17,7 +17,6 @@ public class PlayerAction : MonoBehaviour
     public void ExecuteAction(FighterController user, FighterController target, BattleContext context)
     {
         if (_selectedAction == null) return;
-        Debug.Log($"Executing {_selectedAction.ActionName} from {user.name} to {target.name}");
         // _selectedAction.Execute(user, target, context);
     }
 

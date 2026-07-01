@@ -3,24 +3,18 @@ using System.Collections.Generic;
 
 public class PrepareTurn : State<BattleController>
 {
-    private BattleController _battle;
-    public override void Enter(BattleController battle)
+    public async override void Enter(BattleController battle)
     {
-        _battle = battle;
-        List<FighterController> initiatedQueue =  battle.CreateQueue();
-        battle.BattleUI.RegisterFighterTurn(initiatedQueue, OnComplete);
-    }
-
-    private void OnComplete()
-    {
-        FighterController fighterTurn = _battle.GetFighterTurn();
+        List<FighterController> initiatedQueue = battle.CreateQueue();
+        await battle.BattleUI.RegisterFighterTurn(initiatedQueue);
+        FighterController fighterTurn = battle.GetFighterTurn();
         if (fighterTurn.IsAlly)
         {
-            _battle.ChangeState(_battle.PlayerTurnState);
+            battle.ChangeState(battle.PlayerTurnState);
         }
         else
         {
-            _battle.ChangeState(_battle.EnemyTurnState);
+            battle.ChangeState(battle.EnemyTurnState);
         }
     }
 }

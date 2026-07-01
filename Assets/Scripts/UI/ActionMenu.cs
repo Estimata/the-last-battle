@@ -26,6 +26,8 @@ public class ActionMenu : MonoBehaviour
     public void ShowActionMenu()
     {
         RectTransform actionButton = _basicAction.GetComponent<RectTransform>();
+        if (actionButton.localScale == Vector3.one) return;
+
         Sequence.Create()
             .Insert(0.00f, Tween.Scale(actionButton, Vector3.one, 0.45f, Ease.OutBack))
             .Insert(0.08f, Tween.Scale(_skillButton, Vector3.one, 0.45f, Ease.OutBack))
@@ -35,6 +37,8 @@ public class ActionMenu : MonoBehaviour
     public async Task HideActionMenu()
     {
         RectTransform actionButton = _basicAction.GetComponent<RectTransform>();
+        if (actionButton.localScale == Vector3.zero) return;
+
         Sequence sequence = Sequence.Create()
             .Insert(0.00f, Tween.Scale(actionButton, Vector3.zero, 0.45f, Ease.InBack))
             .Insert(0.08f, Tween.Scale(_skillButton, Vector3.zero, 0.45f, Ease.InBack))

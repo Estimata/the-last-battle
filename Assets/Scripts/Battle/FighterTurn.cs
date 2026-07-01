@@ -7,17 +7,15 @@ public class FighterTurn : MonoBehaviour
     
     public List<FighterController> CreateQueue(List<FighterController> fighters)
     {
-        fighters.Sort((a, b) => b.Stats.Speed.CompareTo(a.Stats.Speed));
-        FighterQueue = fighters;
+        FighterQueue = new List<FighterController>(fighters);
+        FighterQueue.Sort((a, b) => b.Stats.Speed.CompareTo(a.Stats.Speed));
         return FighterQueue;
     }
 
     public FighterController GetTurnAndAdvance()
     {
-        FighterController fighterTurn = FighterQueue[0];
         FighterQueue.RemoveAt(0);
-        FighterQueue.Add(fighterTurn);
-
+        if (FighterQueue.Count == 0) return null;
         return FighterQueue[0];
     }
 
