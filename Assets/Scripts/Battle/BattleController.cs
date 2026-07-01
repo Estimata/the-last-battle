@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Unity.Cinemachine;
 using System.Collections.Generic;
 
@@ -52,7 +53,17 @@ public class BattleController : MonoBehaviour
     {
         FighterController player = GetFighterTurn();
         _playerAction.SetAction(player);
-        BattleUI.RegisterBasicActionButton(player.GetBasicAction());
+        
+        FighterAction basicAction = player.GetBasicAction();
+        Button basicActionButton = BattleUI.RegisterBasicActionButton(basicAction);
+        basicActionButton.onClick.AddListener(() => _playerAction.SelectedAction(basicAction));
+
+        BattleUI.RemoveSkillActionButtons();
+        foreach (FighterAction skill in player.GetSkills())
+        {
+            Button skillActionButton = BattleUI.RegisterSkillActionButton(skill);
+            skillActionButton.onClick.AddListener(() => _playerAction.SelectedAction(skill));
+        }
     }
 
 

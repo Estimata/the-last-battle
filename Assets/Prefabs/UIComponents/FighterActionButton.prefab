@@ -156,6 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FighterActionButton
   _text: {fileID: 1165487536653682743}
+  _background: {fileID: 2452661265257391932}
+  _accentBar: {fileID: 2452661265257391932}
 --- !u!1 &3273226483216795066
 GameObject:
   m_ObjectHideFlags: 0

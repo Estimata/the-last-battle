@@ -12,10 +12,10 @@ public class PlayerAction : MonoBehaviour
         _skills = fighter.GetSkills();
     }
 
-    public void SelectedAction()
+    public void SelectedAction(FighterAction action)
     {
-        
+        _selectedAction = action;
+        Debug.Log($"Selected Action: {action.ActionName}");
     }
-
 
 }
