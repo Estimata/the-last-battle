@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goblin
   m_EditorClassIdentifier: Assembly-CSharp::FighterData
   FighterName: Goblin
-  HP: 100
+  HP: 10
   MP: 100
   ATK: 10
   DEF: 5

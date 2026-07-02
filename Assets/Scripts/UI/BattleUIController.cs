@@ -54,7 +54,7 @@ public class BattleUIController : MonoBehaviour
         UnselectAllButtons();
         ShowActionMenu();
     }
-    public void ShowFighterDetail(FighterData data) => _fighterDetail.ShowDetail(data);
+    public void ShowFighterDetail(FighterData data, int currentHealth, Stats stats) => _fighterDetail.ShowDetail(data, currentHealth, stats);
     public void HideFighterDetail() => _fighterDetail.HideDetail();
     
     public void UnselectAllButtons()

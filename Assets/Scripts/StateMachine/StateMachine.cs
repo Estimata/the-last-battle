@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 public class StateMachine<T>
 {
@@ -34,6 +35,24 @@ public class StateMachine<T>
     {
         if (_currentState == newState) return;
         if (_currentState.CanBeInterrupted(newState)) ChangeState(newState);
+    }
+
+    public Task WaitForState(IState<T> expectedState)
+    {
+        var tcs = new TaskCompletionSource<IState<T>>();
+
+        void Handler(IState<T> state)
+        {
+            if (state != expectedState)
+                return;
+
+            OnStateChanged -= Handler;
+            tcs.SetResult(state);
+        }
+
+        OnStateChanged += Handler;
+
+        return tcs.Task;
     }
 
     public void Enable()

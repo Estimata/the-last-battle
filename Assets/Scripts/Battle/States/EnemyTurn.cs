@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyTurn : State<BattleController>
 {
-    public override void Enter(BattleController battle)
+    public override async void Enter(BattleController battle)
     {
         FighterController enemy = battle.GetFighterTurn();
         if (enemy == null)
@@ -13,26 +13,10 @@ public class EnemyTurn : State<BattleController>
 
         FighterAction action = enemy.GetBasicAction();
         FighterController target = battle.FindNearestTarget(enemy);
-        battle.ExecuteAction(target);
-        TurnOver(battle);
-    }
-
-    private async void TurnOver(BattleController battle)
-    {
-        FighterController fighterTurn = await battle.GetTurnAndAdvance();
-        if (fighterTurn == null)
-        {
-            battle.ChangeState(battle.PrepareTurnState);
-            return;
-        }
-        
-        if (fighterTurn.IsAlly)
-        {
-            battle.ChangeState(battle.PlayerTurnState);
-        }
-        else
-        {
-            Enter(battle);
-        }
+        battle.SelectFighter(enemy);
+        await action.Execute(enemy, target, battle, battle.BattleContext);
+        battle.SelectFighter(null);
+        await enemy.ReturnToBattlePosition();
+        battle.ChangeState(battle.EndTurnState);
     }
 }

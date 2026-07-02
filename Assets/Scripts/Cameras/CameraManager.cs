@@ -25,6 +25,12 @@ public class CameraManager : MonoBehaviour
         _battleCamera.Priority = 50;
     }
 
+    private void BattleExited()
+    {
+        _battleCamera.Priority = 0;
+        _fighterDetailCamera.Priority = 0;
+    }
+
     private void FocusOnFighter(FighterController fighter)
     {
         if (fighter == null)
@@ -34,6 +40,7 @@ public class CameraManager : MonoBehaviour
             return;
         }
         
+        _fighterOrbital.HorizontalAxis.Value = 0;
         _fighterDetailCamera.Target.TrackingTarget = fighter.transform;
         _fighterDetailCamera.Target.LookAtTarget = fighter.transform;
         _hasTarget = true;
@@ -42,11 +49,13 @@ public class CameraManager : MonoBehaviour
 
     private void OnEnable() {
         BattleInitiator.OnBattleInitiated += BattleEntered;
+        BattleController.OnBattleEnded += BattleExited;
         _fighterSelector.OnFighterSelected += FocusOnFighter;
     }
 
     private void OnDisable() {
         BattleInitiator.OnBattleInitiated -= BattleEntered;
+        BattleController.OnBattleEnded -= BattleExited;
         _fighterSelector.OnFighterSelected -= FocusOnFighter;
     }
 }

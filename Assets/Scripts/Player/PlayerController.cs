@@ -51,11 +51,6 @@ public class PlayerController : MonoBehaviour
     
     public void ChangeState(IState<PlayerController> state) => _playerState.ChangeState(state);
     public void InterruptState(IState<PlayerController> state) => _playerState.Interrupt(state);
-    private void BattleEntered()
-    {
-        _target = null;
-        _playerState.Disable();
-    }
     
     public bool HasTarget() => _target != null;
 
@@ -66,6 +61,23 @@ public class PlayerController : MonoBehaviour
     public void LookForward() => _rotation.LookForward(_movement.Velocity.normalized, _turningSpeed);
     public void LockIn() => _rotation.transform.LookAt(_target.position);
 
-    private void OnEnable() => BattleInitiator.OnBattleInitiated += BattleEntered;
-    private void OnDisable() => BattleInitiator.OnBattleInitiated -= BattleEntered;
+    private void BattleEntered() {
+        Cursor.lockState = CursorLockMode.None;
+        _playerState.Disable();
+    }
+    private void BattleExited() {
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        _playerState.Enable();
+    }
+    private void OnEnable()
+    { 
+        BattleInitiator.OnBattleInitiated += BattleEntered;
+        BattleController.OnBattleEnded += BattleExited;
+    }
+    private void OnDisable()
+    { 
+        BattleInitiator.OnBattleInitiated -= BattleEntered;
+        BattleController.OnBattleEnded -= BattleExited;
+    }
 }

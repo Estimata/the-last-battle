@@ -12,15 +12,15 @@ public class FighterDetail : MonoBehaviour
     [SerializeField] private TMP_Text _speedLabel;
     [SerializeField] private TMP_Text _defendLabel;
     [SerializeField] private TMP_Text _criticalLabel;
-    public void ShowDetail(FighterData data)
+    public void ShowDetail(FighterData data, int currentHealth, Stats stats)
     {
         _fighterName.text = data.FighterName;
-        _healthLabel.text = $"HP {data.HP}";
-        _manaLabel.text = $"MP {data.MP}";
-        _attackLabel.text = $"ATK {data.ATK}";
-        _speedLabel.text = $"SPD {data.SPD}";
-        _defendLabel.text = $"DEF {data.DEF}";
-        _criticalLabel.text = $"CRT {data.CRIT}";
+        _healthLabel.text = $"HP {currentHealth}";
+        _manaLabel.text = $"MP {stats.MaxMP}";
+        _attackLabel.text = $"ATK {stats.Attack}";
+        _speedLabel.text = $"SPD {stats.Speed}";
+        _defendLabel.text = $"DEF {stats.Defense}";
+        _criticalLabel.text = $"CRT {stats.Crit}";
 
         Tween.Scale(transform, Vector3.zero, Vector3.one, 0.45f, Ease.OutBack);
     }

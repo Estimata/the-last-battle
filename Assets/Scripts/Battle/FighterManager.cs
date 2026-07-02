@@ -3,14 +3,15 @@ using System.Collections.Generic;
 
 public class FighterManager : MonoBehaviour
 {
-    List<FighterController> _allies = new List<FighterController>();
-    List<FighterController> _enemies = new List<FighterController>();
+    public List<FighterController> RemainingFighter = new List<FighterController>();
+    private List<FighterController> _allies = new List<FighterController>();
+    private List<FighterController> _enemies = new List<FighterController>();
 
-    public void SetFighterSides(List<FighterController> fighters)
+    public void SetFighterSides()
     {
         _allies.Clear();
         _enemies.Clear();
-        foreach(FighterController fighter in fighters)
+        foreach(FighterController fighter in RemainingFighter)
         {    
             if (fighter.IsAlly)
             {
@@ -48,5 +49,30 @@ public class FighterManager : MonoBehaviour
             );
             return _allies[0];
         }
+    }
+
+    public FighterController GetDiedFighter()
+    {
+        foreach (FighterController fighter in RemainingFighter) if (fighter.IsDead()) return fighter;
+        return null;
+    }
+    public bool IsBattleOver(List<FighterController> remainingFighters)
+    {
+        int allyCount = 0;
+        int enemyCount = 0;
+
+        foreach (FighterController fighter in remainingFighters)
+        {
+            if (fighter.IsAlly)
+            {
+                allyCount++;
+            }
+            else
+            {
+                enemyCount++;
+            }
+        }
+
+        return allyCount == 0 || enemyCount == 0;
     }
 }

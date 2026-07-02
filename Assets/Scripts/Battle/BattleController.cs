@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 public class BattleController : MonoBehaviour
 {
+    public static event Action OnBattleEnded;
     public BattleUIController BattleUI;
     public FighterSelector FighterSelector;
     [SerializeField] private CinemachineTargetGroup _fighterGroup;
@@ -18,10 +20,9 @@ public class BattleController : MonoBehaviour
     public PrepareTurn PrepareTurnState { get; private set; }
     public PlayerTurn PlayerTurnState { get; private set; }
     public EnemyTurn EnemyTurnState { get; private set; }
+    public EndTurn EndTurnState { get; private set; }
 
-    private BattleContext _battleContext;
-    private List<FighterController> _remainingFighter;
-
+    public BattleContext BattleContext { get; private set; }
     private void Awake() {
         InitializeStates();
     }
@@ -31,6 +32,7 @@ public class BattleController : MonoBehaviour
         PrepareTurnState = new PrepareTurn();
         PlayerTurnState = new PlayerTurn();
         EnemyTurnState = new EnemyTurn();
+        EndTurnState = new EndTurn();
 
         _battleState = new StateMachine<BattleController>(this, PrepareTurnState, false);
     }
@@ -42,12 +44,11 @@ public class BattleController : MonoBehaviour
     public void ChangeState(IState<BattleController> state) => _battleState.ChangeState(state);
     public void InterruptState(IState<BattleController> state) => _battleState.Interrupt(state);
 
-    public List<FighterController> CreateQueue() => _fighterTurn.CreateQueue(_remainingFighter);
+    public List<FighterController> CreateQueue() => _fighterTurn.CreateQueue(_fighterManager.RemainingFighter);
     public FighterController GetFighterTurn() => _fighterTurn.FighterQueue[0];
     public async Task<FighterController> GetTurnAndAdvance() 
     {
         await BattleUI.RemoveFighterFromQueue(GetFighterTurn());
-        await BattleUI.ClearActionButtons();
         return _fighterTurn.GetTurnAndAdvance();
     }
 
@@ -78,31 +79,44 @@ public class BattleController : MonoBehaviour
         BattleUI.UnselectAllButtons();
     }
     public bool IsActionSelected() => _playerAction.GetSelectedAction() != null;
-    public void ExecuteAction(FighterController target)
+    public async Task ExecuteAction(FighterController target)
     {
         FighterController user = GetFighterTurn();
-        _playerAction.ExecuteAction(user, target, _battleContext);
+        await _playerAction.ExecuteAction(user, target, this, BattleContext);
     }
 
     public FighterController FindNearestTarget(FighterController fighter) => _fighterManager.FindNearestTarget(fighter);
 
+    public FighterController GetDiedFighter() => _fighterManager.GetDiedFighter();
+    public async Task RemoveFighter(FighterController fighter)
+    {
+        _fighterManager.RemainingFighter.Remove(fighter);
+        _fighterManager.SetFighterSides();
+        _fighterTurn.FighterQueue.Remove(fighter);
+        await BattleUI.RemoveFighterFromQueue(fighter);
 
+        if (IsBattleOver()) {
+            BattleExited();
+            return;
+        }
+        foreach (FighterController finder in _fighterManager.RemainingFighter) finder.SetTarget(FindNearestTarget(finder).transform);
+    }
+
+    public bool IsBattleOver() => _fighterManager.IsBattleOver(_fighterManager.RemainingFighter);
 
     public void BattleEntered(BattleContext context)
     {
-        Cursor.lockState = CursorLockMode.None;
-
-        _battleContext = context;
-        _remainingFighter = new List<FighterController>(context.Fighters);
+        BattleContext = context;
+        _fighterManager.RemainingFighter = new List<FighterController>(context.Fighters);
 
         _battleNavigation.SetupNavigation(
-            _remainingFighter,
+            _fighterManager.RemainingFighter,
             context.BattleCenter
         );
 
-        _fighterManager.SetFighterSides(_remainingFighter);
+        _fighterManager.SetFighterSides();
 
-        foreach (FighterController fighter in _remainingFighter)
+        foreach (FighterController fighter in _fighterManager.RemainingFighter)
         {
             Vector3 initialPosition = _battleNavigation.FindInitialPosition(fighter);
             _fighterGroup.AddMember(fighter.transform, 1f, 1f);
@@ -121,6 +135,7 @@ public class BattleController : MonoBehaviour
     public void BattleExited()
     {
         _battleState.Disable();
+        OnBattleEnded?.Invoke();
     }
  
     private void OnEnable() {

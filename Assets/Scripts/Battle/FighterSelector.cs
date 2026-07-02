@@ -44,14 +44,17 @@ public class FighterSelector : MonoBehaviour
     }    
 
     private void BattleEntered() => _controls.Battle.Enable();
+    private void BattleExited() => _controls.Battle.Disable();
     private void OnEnable()
     {
         _controls.Battle.Click.performed += OnClick;
         BattleInitiator.OnBattleInitiated += BattleEntered;
+        BattleController.OnBattleEnded += BattleExited;
     }
     private void OnDisable() {
         
         _controls.Battle.Click.performed -= OnClick;
         BattleInitiator.OnBattleInitiated -= BattleEntered;
+        BattleController.OnBattleEnded -= BattleExited;
     }
 }

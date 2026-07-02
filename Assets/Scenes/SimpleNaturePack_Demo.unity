@@ -1752,8 +1752,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181837472}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.62, y: 3.096, z: 25.039999}
+  m_LocalRotation: {x: 0.22591959, y: 8.198325e-10, z: -1.9013188e-10, w: 0.974146}
+  m_LocalPosition: {x: -3.71, y: 0.8089619, z: 6.946998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1866,9 +1866,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 5000
-  field of view: 60.000004
+  field of view: 14.99968
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -4851,6 +4851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _actionButton: {fileID: 3585543922434093434, guid: 4903382ee2f6c1f43bee697842f68237, type: 3}
+  _returnButton: {fileID: 878207128}
 --- !u!1001 &558752018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8271,8 +8272,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1316739330}
   - {fileID: 555683779}
+  - {fileID: 1316739330}
   - {fileID: 1904677096}
   - {fileID: 313715737}
   m_Father: {fileID: 0}
@@ -8296,6 +8297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _actionMenu: {fileID: 1316739334}
   _skillButton: {fileID: 1985537667}
+  _returnButton: {fileID: 878207130}
   _skillMenu: {fileID: 555683783}
   _turnPanel: {fileID: 313715742}
   _fighterDetail: {fileID: 1904677100}
@@ -8588,6 +8590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d08aa7e1a2ff3f44aeda1106c3e8130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  RemainingFighter: []
 --- !u!114 &1275211263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8601,12 +8604,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   BattleUI: {fileID: 1209397279}
+  FighterSelector: {fileID: 1275211268}
   _fighterGroup: {fileID: 1275211265}
   _battleNavigation: {fileID: 1275211264}
   _fighterTurn: {fileID: 1275211266}
   _fighterManager: {fileID: 1275211262}
   _playerAction: {fileID: 1275211267}
-  _fighterSelector: {fileID: 1275211268}
 --- !u!114 &1275211264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12456,6 +12459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b34839a879c284e94cd25b6b9dc1fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!195 &1909828719 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 5162878105503355759, guid: 6ea82ea469b33864fb29943fd4a482c0, type: 3}
+  m_PrefabInstance: {fileID: 6444580633667689487}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1933866072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13900,6 +13908,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC
       objectReference: {fileID: 0}
+    - target: {fileID: 4120286327824605887, guid: 13705d6580c68d44f88ef248369221bc, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120286327824605887, guid: 13705d6580c68d44f88ef248369221bc, type: 3}
+      propertyPath: m_Acceleration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248018402992327310, guid: 13705d6580c68d44f88ef248369221bc, type: 3}
+      propertyPath: Agent
+      value: 
+      objectReference: {fileID: 3312427577932927020}
     - target: {fileID: 5248018402992327310, guid: 13705d6580c68d44f88ef248369221bc, type: 3}
       propertyPath: Stats
       value: 
@@ -14004,6 +14024,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8674068391959632563, guid: 13705d6580c68d44f88ef248369221bc, type: 3}
   m_PrefabInstance: {fileID: 3312427577932927001}
   m_PrefabAsset: {fileID: 0}
+--- !u!195 &3312427577932927020 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 4120286327824605887, guid: 13705d6580c68d44f88ef248369221bc, type: 3}
+  m_PrefabInstance: {fileID: 3312427577932927001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4684403153763560380 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8049959799187684183, guid: edb4b60e7bba64f4e9a87cea322b2ad0, type: 3}
@@ -14073,6 +14098,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2170980852403947032, guid: 6ea82ea469b33864fb29943fd4a482c0, type: 3}
+      propertyPath: Agent
+      value: 
+      objectReference: {fileID: 1909828719}
+    - target: {fileID: 2170980852403947032, guid: 6ea82ea469b33864fb29943fd4a482c0, type: 3}
       propertyPath: Stats
       value: 
       objectReference: {fileID: 1909828712}
@@ -14088,6 +14117,14 @@ PrefabInstance:
       propertyPath: _fighterData
       value: 
       objectReference: {fileID: 11400000, guid: 30a0f91444847f2429b2956e243f5e4b, type: 2}
+    - target: {fileID: 5162878105503355759, guid: 6ea82ea469b33864fb29943fd4a482c0, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162878105503355759, guid: 6ea82ea469b33864fb29943fd4a482c0, type: 3}
+      propertyPath: m_Acceleration
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5284326252895133245, guid: 6ea82ea469b33864fb29943fd4a482c0, type: 3}
       propertyPath: m_Name
       value: GoblinWarrior
@@ -14105,6 +14142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 604973312403517962, guid: edb4b60e7bba64f4e9a87cea322b2ad0, type: 3}
+      propertyPath: Agent
+      value: 
+      objectReference: {fileID: 1303202325}
     - target: {fileID: 604973312403517962, guid: edb4b60e7bba64f4e9a87cea322b2ad0, type: 3}
       propertyPath: Stats
       value: 
@@ -14133,6 +14174,14 @@ PrefabInstance:
       propertyPath: agentMovement
       value: 
       objectReference: {fileID: 1303202328}
+    - target: {fileID: 8021861087831761915, guid: edb4b60e7bba64f4e9a87cea322b2ad0, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021861087831761915, guid: edb4b60e7bba64f4e9a87cea322b2ad0, type: 3}
+      propertyPath: m_Acceleration
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8100777167088740846, guid: edb4b60e7bba64f4e9a87cea322b2ad0, type: 3}
       propertyPath: m_Name
       value: Player

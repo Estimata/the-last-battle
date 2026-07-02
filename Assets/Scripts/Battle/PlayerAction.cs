@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -14,10 +15,10 @@ public class PlayerAction : MonoBehaviour
 
     public void SelectedAction(FighterAction action) => _selectedAction = action;
     public FighterAction GetSelectedAction() => _selectedAction;
-    public void ExecuteAction(FighterController user, FighterController target, BattleContext context)
+    public async Task ExecuteAction(FighterController user, FighterController target, BattleController battle,  BattleContext context)
     {
         if (_selectedAction == null) return;
-        // _selectedAction.Execute(user, target, context);
+        await _selectedAction.Execute(user, target, battle, context);
     }
 
 }

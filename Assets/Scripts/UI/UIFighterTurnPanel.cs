@@ -43,8 +43,9 @@ public class UIFighterTurnPanel : MonoBehaviour
         if (_fighterAvatars.TryGetValue(fighter, out GameObject fighterAvatar))
         {
             if (fighterAvatar.TryGetComponent<RectTransform>(out RectTransform rect)) await Tween.Scale(rect, Vector2.zero, 0.3f, Ease.InCubic);
-            Destroy(fighterAvatar);
             _fighterAvatars.Remove(fighter);
+            fighterAvatar.transform.SetParent(null);
+            Destroy(fighterAvatar);
         }
     }
 }
